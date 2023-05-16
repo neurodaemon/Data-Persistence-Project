@@ -61,13 +61,10 @@ public class DataManager : MonoBehaviour
         {
             playerName = name;
         }
-        Debug.Log($"player name updated: {playerName}");
     }
 
     public void UpdateHiScore(int score)
     {
-        Debug.Log($"updating score: {score} {playerName}");
-
         currentScore = new HiScore(playerName, score);
         UpdateHiScores();
     }
@@ -135,7 +132,6 @@ public class DataManager : MonoBehaviour
 
     private void SaveHiScores()
     {
-        Debug.Log($"saving hi scores, path: {saveFilePath}");
         SaveData data = new SaveData(hiScores);
 
         string json = JsonUtility.ToJson(data);
@@ -145,20 +141,17 @@ public class DataManager : MonoBehaviour
 
     private void LoadHiScores()
     {
-        Debug.Log($"saveFilePath: {saveFilePath}");
         SaveData data;
         if (File.Exists(saveFilePath))
         {
             // load existing scores if the file exists
             string json = File.ReadAllText(saveFilePath);
             data = JsonUtility.FromJson<SaveData>(json);
-            Debug.Log("loaded hi scores");
         }
         else
         {
             // generate default list of scores if no file exists
             data = new SaveData();
-            Debug.Log("generated hi scores");
         }
 
         hiScores = data.hiScores;
